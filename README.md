@@ -1,5 +1,5 @@
 Company Taxation Script
-A server-side script designed to handle the taxation of companies with mega_companies. This script calculates and collects taxes, handles special cases like zero or negative balances, sends tax reports to Discord, and more.
+A server-side script designed to handle the taxation of companies to work with mega_companies. This script calculates and collects taxes, handles exceptional cases like zero or negative balances, sends tax reports to Discord, and more.
 
 Features
 
