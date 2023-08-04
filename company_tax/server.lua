@@ -39,7 +39,9 @@ local function calculateTax(company)
         print("Error: Company wallet not found for company ID: " .. company.id)
         return 0
     end
-    local taxAmount = currentMoney * Config.taxRate
+
+    -- Calculate tax amount and ensure it's positive
+    local taxAmount = math.abs(currentMoney * Config.taxRate)
     return taxAmount
 end
 
@@ -53,8 +55,10 @@ local function handleZeroNegativeBalances(company, taxAmount)
 end
 
 local function taxCompany(company)
-    if table_contains(Config.exemptCompanies, company.id) then
-        return "Company "..company.name.." is exempted from tax.", 0
+    local lastTaxedTimestamp = company.lastTaxed or 0
+    local currentTime = os.time()
+    if currentTime - lastTaxedTimestamp < Config.taxSchedule * 3600 then
+        return "Company " .. company.name .. " has already been taxed in this period.", 0
     end
     local taxAmount = calculateTax(company)
     local errorMessage, deductedTax = handleZeroNegativeBalances(company, taxAmount)
